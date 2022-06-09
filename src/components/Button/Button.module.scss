@@ -1,0 +1,23 @@
+@import '../../vars.scss';
+
+.button {
+  all: unset;
+  display: inline-block;
+  padding: 20px;
+  background-color: $dark-gray;
+  border-radius: 50px;
+  width: 35px;
+  height: 35px;
+  font-size: 28px;
+  font-weight: 500;
+  cursor: pointer;
+  color: $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
