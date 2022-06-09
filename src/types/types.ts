@@ -1,15 +1,16 @@
 export type ScreenState = {
-  displayedNumber: number;
+  displayedNumber: string;
 };
 
 type LastRowKey = {
-  title: string | number;
+  title: string;
   classNameProp?: string;
 };
 
 export type KeyboardState = {
   topKeys: string[];
+  displayedNumber: string;
   rightKeys: string[];
-  bottomKeys: number[];
+  bottomKeys: string[];
   lastRowKeys: LastRowKey[];
 };

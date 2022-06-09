@@ -1,4 +1,4 @@
-import Keyboard from '../Keyboard/Keyboard';
+import KeyboardContainer from '../Keyboard/KeyboardContainer';
 import Screen from '../Screen/Screen';
 import s from './Caluclator.module.scss';
 
@@ -6,7 +6,7 @@ const Caluclator: React.FC = () => {
   return (
     <div className={s.calculator}>
       <Screen />
-      <Keyboard />
+      <KeyboardContainer />
     </div>
   );
 };
