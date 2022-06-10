@@ -20,12 +20,25 @@ const KeyboardContainer: React.FC = () => {
     dispatch(operateTopRowButtons(operation));
   };
 
-  const topKeysElems = topKeys.map((key) => <Button title={key} key={key} onClick={topRowButtonClickHandler} />);
+  const bottomRowButtonClickHandler = (elem: string) => {
+    console.log(`bottom`);
+
+    dispatch(changeDisplayedNumber(elem));
+  };
+
+  const topKeysElems = topKeys.map((key) => (
+    <Button title={key} key={key} onClick={topRowButtonClickHandler} />
+  ));
   const bottomKeysElems = bottomKeys.map((key) => (
     <Button title={key} key={key} onClick={numberClickHandler} />
   ));
   const bottomLastKeysElems = lastRowKeys.map((key) => (
-    <Button title={key.title} classProp={key.classNameProp} key={key.title} />
+    <Button
+      title={key.title}
+      classProp={key.classNameProp}
+      key={key.title}
+      onClick={bottomRowButtonClickHandler}
+    />
   ));
 
   return (

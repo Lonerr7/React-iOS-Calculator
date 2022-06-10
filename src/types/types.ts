@@ -14,3 +14,14 @@ export type KeyboardState = {
   bottomKeys: string[];
   lastRowKeys: LastRowKey[];
 };
+
+export enum TopKeysOperations {
+  AC = 'AC',
+  PlusMinus = '±',
+  Percentage = '%',
+}
+
+export enum BottomLastKeys {
+  Zero = '0',
+  Comma = ',',
+}
