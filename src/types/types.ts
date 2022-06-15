@@ -9,10 +9,14 @@ type LastRowKey = {
 
 export type KeyboardState = {
   topKeys: string[];
-  displayedNumber: string;
   rightKeys: string[];
   bottomKeys: string[];
   lastRowKeys: LastRowKey[];
+  displayedNumber: string;
+  prevNumber: number;
+  mathOperation: string;
+  prevMathOperation: string;
+  result: number;
 };
 
 export enum TopKeysOperations {

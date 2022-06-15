@@ -2,13 +2,16 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
   changeDisplayedNumber,
   operateTopRowButtons,
+  setEqualOperation,
+  setPlusOperation,
+  setMinusOperation
 } from '../../redux/keyboardSlice';
 import Button from '../Button/Button';
 import Keyboard from './Keyboard';
 
 const KeyboardContainer: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { bottomKeys, lastRowKeys, topKeys } = useAppSelector(
+  const { bottomKeys, lastRowKeys, topKeys, rightKeys } = useAppSelector(
     (state) => state.keyboard
   );
 
@@ -21,9 +24,19 @@ const KeyboardContainer: React.FC = () => {
   };
 
   const bottomRowButtonClickHandler = (elem: string) => {
-    console.log(`bottom`);
-
     dispatch(changeDisplayedNumber(elem));
+  };
+
+  const plusClickHandler = (operation: string) => {
+    dispatch(setPlusOperation(operation));
+  };
+
+  const minusClickHandler = (operation: string) => {
+    dispatch(setMinusOperation(operation))
+  }
+
+  const equalClickHandler = () => {
+    dispatch(setEqualOperation());
   };
 
   const topKeysElems = topKeys.map((key) => (
@@ -40,12 +53,19 @@ const KeyboardContainer: React.FC = () => {
       onClick={bottomRowButtonClickHandler}
     />
   ));
+  const rightKeysElems = rightKeys.map((key) => (
+    <Button title={key} key={key} />
+  ));
 
   return (
     <Keyboard
       bottomKeysElems={bottomKeysElems}
       bottomLastKeysElems={bottomLastKeysElems}
       topKeysElems={topKeysElems}
+      rightKeysElems={rightKeysElems}
+      plusClickHandler={plusClickHandler}
+      equalClickHandler={equalClickHandler}
+      minusClickHandler={minusClickHandler}
     />
   );
 };

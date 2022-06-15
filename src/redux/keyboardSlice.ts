@@ -3,10 +3,14 @@ import { KeyboardState, TopKeysOperations } from '../types/types';
 
 const initialState: KeyboardState = {
   topKeys: ['AC', '±', '%'],
-  displayedNumber: '0',
   bottomKeys: ['7', '8', '9', '4', '5', '6', '1', '2', '3'],
   rightKeys: ['÷', 'x', '-', '+', '='],
   lastRowKeys: [{ title: '0', classNameProp: 'special' }, { title: ',' }],
+  displayedNumber: '0',
+  prevNumber: 0,
+  mathOperation: '',
+  prevMathOperation: '',
+  result: 0,
 };
 
 const keyboardSlice = createSlice({
@@ -46,18 +50,72 @@ const keyboardSlice = createSlice({
       switch (action.payload) {
         case TopKeysOperations.AC:
           state.displayedNumber = '0';
+          state.mathOperation = '';
+          state.prevNumber = 0;
+          state.result = 0;
+          state.prevMathOperation = '';
           break;
         case TopKeysOperations.PlusMinus:
           if (!state.displayedNumber.startsWith('-')) {
             state.displayedNumber = `-${state.displayedNumber}`;
+            state.prevNumber = parseFloat(state.displayedNumber);
           } else {
             state.displayedNumber = state.displayedNumber.slice(1);
+            state.prevNumber = +state.displayedNumber;
           }
+          break;
+        case TopKeysOperations.Percentage:
+          state.displayedNumber = (+state.displayedNumber / 100).toString();
       }
+    },
+    setPlusOperation(state, action: PayloadAction<string>) {
+      state.mathOperation = action.payload;
+      if (!state.prevMathOperation) {
+        state.prevNumber = parseFloat(state.displayedNumber);
+        state.displayedNumber = '0';
+      } else if (state.prevMathOperation === '-') {
+        state.prevNumber -= parseFloat(state.displayedNumber);
+        state.displayedNumber = '0';
+      } else {
+        state.prevNumber += parseFloat(state.displayedNumber);
+        state.displayedNumber = '0';
+      }
+      state.prevMathOperation = action.payload;
+    },
+    setMinusOperation(state, action: PayloadAction<string>) {
+      state.mathOperation = action.payload;
+      if (!state.prevMathOperation) {
+        state.prevNumber = parseFloat(state.displayedNumber);
+        state.displayedNumber = '0';
+      } else if (state.prevMathOperation === '+') {
+        state.prevNumber += parseFloat(state.displayedNumber);
+        state.displayedNumber = '0';
+      } else {
+        state.prevNumber -= parseFloat(state.displayedNumber);
+        state.displayedNumber = '0';
+      }
+      state.prevMathOperation = action.payload;
+    },
+    setEqualOperation(state) {
+      if (state.prevMathOperation === '+') {
+        state.displayedNumber = (
+          +state.displayedNumber + state.prevNumber
+        ).toString();
+      } else if (state.prevMathOperation === '-') {
+        state.displayedNumber = (
+          state.prevNumber - +state.displayedNumber
+        ).toString();
+      }
+      state.prevNumber = 0;
     },
   },
 });
 
-export const { changeDisplayedNumber, operateTopRowButtons } =
-  keyboardSlice.actions;
+export const {
+  changeDisplayedNumber,
+  operateTopRowButtons,
+  setPlusOperation,
+  setEqualOperation,
+  setMinusOperation,
+} = keyboardSlice.actions;
 export default keyboardSlice.reducer;
